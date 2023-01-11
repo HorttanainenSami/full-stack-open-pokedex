@@ -2,9 +2,9 @@ name: Hello World!
 
 on:
   push:
-    branch:
+    branches:
       - master
-
+    
 jobs:
   hello_world_job:
     runs-on: ubuntu-20.04
@@ -12,3 +12,9 @@ jobs:
       - name: Say hello
         run: |
           echo "Hello world!"
+      - name: Now it is
+        run: |
+          date
+      - name: Dictionary content
+        run: |
+          ls -l
