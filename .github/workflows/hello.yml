@@ -12,15 +12,9 @@ jobs:
       - name: Say hello
         run: |
           echo "Hello world!"
-  now_it_is_job:
-    runs-on: ubuntu-20.04
-    steps:
       - name: Now it is
         run: |
           date
-  dictionary_content_job:
-    runs-on: ubuntu-20.04
-    steps:
       - name: Dictionary content
         run: |
           ls
