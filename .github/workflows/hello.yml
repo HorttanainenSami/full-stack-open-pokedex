@@ -17,4 +17,4 @@ jobs:
           date
       - name: Dictionary content
         run: |
-          ls
+          ls -l
