@@ -1,5 +1,11 @@
 #!/bin/bash
 
-echo "Hello from shell script"
-
-exit 0 # exit status 1 means that the script fails
+RESPONSE=$(curl https://floral-shape-8320.fly.dev/health)
+if [ $RESPONSE="ok" ]
+then
+    echo "success"
+    exit 0
+else
+    echo "fail"
+    exit 1
+fi
