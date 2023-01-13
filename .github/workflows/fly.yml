@@ -30,22 +30,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-    discord_notification:
-      if: ${{ github.event_name == 'push' }}
-      needs: [tag_release]
-      runs-on: ubuntu-20.04
-      steps:
-        - name: Success
-          if: success()
-          env:
-            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          uses: Ilshidur/action-discord@master
-          with:
-            args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
-        - name: Discord notification
-          if: failure()
-          env:
-            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          uses: Ilshidur/action-discord@master
-          with:
-            args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to deploy. {{${{github.sha}}'
+  discord_notification:
+    if: ${{ github.event_name == 'push' }}
+    needs: [tag_release]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Success
+        if: success()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+      - name: Discord notification
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to deploy. {{${{github.sha}}'
