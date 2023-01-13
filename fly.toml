@@ -22,7 +22,7 @@ processes = []
     type = "connections"
 
   [[services.script_checks]]
-    command       = "./health_check.sh"
+    command       = "app/health_check.sh"
     args          = ["a", "b", "c"]
     grace_period  = "1s"
     interval      = "5s"
