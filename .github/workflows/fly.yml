@@ -42,7 +42,7 @@ jobs:
           COMMITTER: ${{github.actor}}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'to https://floral-shape-8320.fly.dev/ by [COMMITTER](https://github.com/{{COMMITTER}})'
+          args: 'to https://floral-shape-8320.fly.dev/ by [{{COMMITTER}}](https://github.com/{{COMMITTER}})'
       - name: Discord notification
         if: failure()
         env:
