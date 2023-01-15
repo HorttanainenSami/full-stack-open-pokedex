@@ -59,7 +59,7 @@ jobs:
           DEFAULT_BUMP: patch
 
   discord_notification:
-    if: ${{ github.event_name == 'push' && always() }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-20.04
     needs: [tag_release]
     steps:
