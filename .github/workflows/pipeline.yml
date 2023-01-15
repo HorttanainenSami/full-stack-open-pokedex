@@ -32,7 +32,15 @@ jobs:
            start: npm run start-prod
            wait-on: http://localhost:5000
            
-           name: Fly Deploy
+      - name: build failure
+        uses: Ilshidur/action-discord@master
+        if: ${{ github.event_name == 'push' && failure() }}
+        env:
+            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+            COMMITTER: ${{github.actor}}
+        with:
+          args: 'Commit {{ EVENT_PAYLOAD.repository.commits_url }} by [{{COMMITTER}}](https://github.com/{{COMMITTER}}) broke the tests'
+           
 
   deploy:
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
