@@ -61,6 +61,7 @@ jobs:
   discord_notification:
     if: ${{ github.event_name == 'push' && always() }}
     runs-on: ubuntu-20.04
+    needs: [tag_release]
     steps:
       - name: Success
         if: success()
