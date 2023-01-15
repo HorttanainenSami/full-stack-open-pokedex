@@ -39,13 +39,14 @@ jobs:
         if: success()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          COMMITTER: ${{github.actor}}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'to https://floral-shape-8320.fly.dev/ by [{{github.actor}}](https://github.com/{{github.actor}})'
+          args: 'to https://floral-shape-8320.fly.dev/ by [COMMITTER](https://github.com/{{COMMITTER}})'
       - name: Discord notification
         if: failure()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Commit {{ EVENT_PAYLOAD.repository.commits_url }} by [{{github.actor}}](https://github.com/{{github.actor}}) broke the build'
+          args: 'Commit {{ EVENT_PAYLOAD.repository.commits_url }} by [{{COMMITTER}}](https://github.com/{{COMMITTER}}) broke the build'
