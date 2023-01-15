@@ -41,11 +41,11 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+          args: 'to https://floral-shape-8320.fly.dev/ by [{{github.actor}}](https://github.com/{{github.actor}})'
       - name: Discord notification
         if: failure()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to deploy. {{${{github.sha}}'
+          args: 'Commit {{ EVENT_PAYLOAD.repository.commits_url }} by [{{github.actor}}](https://github.com/{{github.actor}}) broke the build'
