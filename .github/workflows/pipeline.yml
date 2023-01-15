@@ -43,7 +43,22 @@ jobs:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
-
+      - name: build failure
+        uses: Ilshidur/action-discord@master
+        if: ${{ github.event_name == 'push' && failure() }}
+        env:
+            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+            COMMITTER: ${{github.actor}}
+        with:
+          args: 'Commit {{ EVENT_PAYLOAD.repository.commits_url }} by [{{COMMITTER}}](https://github.com/{{COMMITTER}}) broke the build'
+      - name: build success
+        uses: Ilshidur/action-discord@master
+        if: ${{ github.event_name == 'push' && success() }}
+        env:
+            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+            COMMITTER: ${{github.actor}}
+        with:
+          args: 'to https://floral-shape-8320.fly.dev/ by [{{COMMITTER}}](https://github.com/{{COMMITTER}})'
   tag_release:
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
     needs: [deploy]
@@ -57,25 +72,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-
-  discord_notification:
-    if: ${{ github.event_name == 'push' }}
-    runs-on: ubuntu-20.04
-    needs: [tag_release]
-    steps:
-      - name: Success
-        if: success()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          COMMITTER: ${{github.actor}}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: 'to https://floral-shape-8320.fly.dev/ by [{{COMMITTER}}](https://github.com/{{COMMITTER}})'
-      - name: Discord notification
-        if: failure()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: 'Commit {{ EVENT_PAYLOAD.repository.commits_url }} by [{{COMMITTER}}](https://github.com/{{COMMITTER}}) broke the build'
-
